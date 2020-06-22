@@ -41,7 +41,8 @@ export const calculatePrice = (selectedServices: ServiceType[], selectedYear: Se
 
     basePrice = servicesPricing.reduce((a, serv) => { return a + serv.pricing.basePrice; }, 0)
 
-    var discounts = new Array<number>();
+    var discounts = new Array<[DiscountKind, number]>();
+    var priceDropPresent = false;
 
     for (let item of servicesPricing) {
 
@@ -52,16 +53,28 @@ export const calculatePrice = (selectedServices: ServiceType[], selectedYear: Se
             {
                 case DiscountKind.Package:
                     var prerequisitesPrice = servicesPricing.filter((s) => discount.services.includes(s.service)).reduce((a, serv) => { return a + serv.pricing.basePrice; }, 0);
-                    discounts.push((item.pricing.basePrice + prerequisitesPrice) - discount.amount);
+                    discounts.push([discount.kind, (item.pricing.basePrice + prerequisitesPrice) - discount.amount]);
                     break;
                 case DiscountKind.PriceDrop:
-                    discounts.push(item.pricing.basePrice - discount.amount);
+                    priceDropPresent = true;
+                    discounts.push([discount.kind, item.pricing.basePrice - discount.amount]);
                     break;
             }
         }
     }
 
-    finalPrice = discounts.length > 0 ? basePrice - Math.max(...discounts) : basePrice;
+    //console.log(discounts);
+    var discountsFiltered = priceDropPresent ? discounts.filter((d) => d[0] === DiscountKind.PriceDrop) : discounts;
+    //console.log(discountsFiltered);
+
+    finalPrice = discountsFiltered.length > 0 ? basePrice - Math.max(...discountsFiltered.map((d) => { return d[1]; })) : basePrice;
 
     return { basePrice, finalPrice };
 };
+
+const withoutSession = calculatePrice(["VideoRecording", "Photography"], 2020);
+const withSession = calculatePrice(["VideoRecording", "Photography", "WeddingSession"], 2020);
+
+const priceChangeWithSession = withSession.finalPrice - withoutSession.finalPrice;
+
+console.log(priceChangeWithSession);

@@ -57,9 +57,9 @@ export const PricingData: PricingMatrix = {
     }
 }
 
-PricingData["Photography"][2020].discount.push(new DiscountParameters(["VideoRecording"], 2200, DiscountKind.Package));
-PricingData["Photography"][2021].discount.push(new DiscountParameters(["VideoRecording"], 2300, DiscountKind.Package));
-PricingData["Photography"][2022].discount.push(new DiscountParameters(["VideoRecording"], 2500, DiscountKind.Package));
+// PricingData["Photography"][2020].discount.push(new DiscountParameters(["VideoRecording"], 2200, DiscountKind.Package));
+// PricingData["Photography"][2021].discount.push(new DiscountParameters(["VideoRecording"], 2300, DiscountKind.Package));
+// PricingData["Photography"][2022].discount.push(new DiscountParameters(["VideoRecording"], 2500, DiscountKind.Package));
 PricingData["WeddingSession"][2020].discount.push(new DiscountParameters(["Photography"], 300, DiscountKind.PriceDrop));
 PricingData["WeddingSession"][2021].discount.push(new DiscountParameters(["Photography"], 300, DiscountKind.PriceDrop));
 PricingData["WeddingSession"][2022].discount.push(new DiscountParameters(["Photography"], 0, DiscountKind.PriceDrop));
