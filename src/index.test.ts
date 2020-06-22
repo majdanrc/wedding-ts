@@ -176,9 +176,9 @@ describe.each([
 });
 
 describe.each([
-    [2020, 300],
-    [2021, 300],
-    [2022, 0]
+    [2020, 600],
+    [2021, 600],
+    [2022, 600]
 ])(
     "calcularePrice.videoRecordingWithPhotographyWithSessionPrice (%i increase by %i)",
     (year: ServiceYear, increase) => {
@@ -193,14 +193,14 @@ describe.each([
             expect(priceChangeWithSession).toEqual(increase);
         });
 
-        test("discount applied", () => {
+        test("lower discount not applied", () => {
             const withoutSession = calculatePrice(["VideoRecording", "Photography"], year);
             const onlySession = calculatePrice(["WeddingSession"], year);
             const withSession = calculatePrice(["VideoRecording", "Photography", "WeddingSession"], year);
 
             const priceWithoutDiscounts = withoutSession.finalPrice + onlySession.finalPrice;
 
-            expect(priceWithoutDiscounts).toBeGreaterThan(withSession.finalPrice);
+            expect(priceWithoutDiscounts).toEqual(withSession.finalPrice);
         });
     }
 );
